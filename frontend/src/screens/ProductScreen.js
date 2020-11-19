@@ -57,7 +57,7 @@ const ProductScreen = ({ match }) => {
               <ListGroup.Item>
                 <Button
                   className="btn-block"
-                  disabled={product.countInStock > 0 ? false : true}
+                  disabled={product.countInStock === 0}
                 >
                   Add to Cart
                 </Button>
