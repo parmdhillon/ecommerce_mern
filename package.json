@@ -1,0 +1,37 @@
+{
+  "name": "mystall",
+  "version": "1.0.0",
+  "description": "MERN Stack eComerce",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server",
+    "server": "nodemon backend/server",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "data:import": "node backend/seeder",
+    "data:delete": "node backend/server -d"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parmdhillon/ecommerce_mern.git"
+  },
+  "author": "Parminder Singh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/parmdhillon/ecommerce_mern/issues"
+  },
+  "homepage": "https://github.com/parmdhillon/ecommerce_mern#readme",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "mongoose": "^5.10.15"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "nodemon": "^2.0.6"
+  }
+}

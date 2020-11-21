@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
@@ -6,11 +6,18 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
-import products from '../products';
+import axios from 'axios';
 import Rating from '../components/Rating';
 
 const ProductScreen = ({ match }) => {
-  const product = products.find((p) => p._id === match.params.id);
+  const [product, setProduct] = useState([]);
+
+  useEffect(() => {
+    axios.get(`/api/product/${match.params.id}`).then(({ data }) => {
+      setProduct(data);
+    });
+  }, [match.params.id]);
+
   return (
     <>
       <Link to="/" className="btn btn-light">
