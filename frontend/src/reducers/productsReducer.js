@@ -31,8 +31,8 @@ export const productDetailReducer = (
   switch (action.type) {
     case actionTypes.PRODUCT_DETAIL_REQ:
       return {
-        loading: true,
         ...state,
+        loading: true,
       };
     case actionTypes.PRODUCT_DETAIL_SUCCESS:
       return {
