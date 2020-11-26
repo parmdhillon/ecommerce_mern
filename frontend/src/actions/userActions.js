@@ -66,3 +66,32 @@ export const register = (name, email, password) => async (dispatch) => {
     });
   }
 };
+
+export const getUserDetails = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: actionTypes.USER_DETAILS_REQ });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await Axios.get(`/api/users/${id}`, config);
+
+    dispatch({ type: actionTypes.USER_DETAILS_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: actionTypes.USER_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

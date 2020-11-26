@@ -44,6 +44,36 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+//@desc     Update user profile
+//@route    PUT /api/users/profile
+//@access   PRIVATE
+
+const updateUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id); // Got user data from protected middleware
+
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+
+    const updatedUser = await user.save();
+    console.log(user.name);
+
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser._id),
+    });
+  } else {
+    res.status(401);
+    throw new Error('User not found');
+  }
+});
+
 //@desc     Registers a New User
 //@route    POST /api/users
 //@access   PUBLIC
@@ -78,4 +108,4 @@ const resgisterUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, getUserProfile, resgisterUser };
+export { authUser, getUserProfile, resgisterUser, updateUserProfile };

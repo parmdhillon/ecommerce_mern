@@ -10,7 +10,11 @@ import {
   productListReducer,
 } from './reducers/productsReducer';
 
-import { userLoginReducer, userRegisterReducer } from './reducers/userReducer';
+import {
+  userDetailsReducer,
+  userLoginReducer,
+  userRegisterReducer,
+} from './reducers/userReducer';
 
 const cartItemsFromStorage = localStorage.getItem('cartItems')
   ? JSON.parse(localStorage.getItem('cartItems'))
@@ -34,6 +38,7 @@ export const store = createStore(
     cart: cartReducer,
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
+    userDetails: userDetailsReducer,
   }),
   initialState,
   composeWithDevTools(applyMiddleware(...middlewares))
