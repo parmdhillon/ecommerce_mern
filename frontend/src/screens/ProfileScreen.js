@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { getUserDetails } from '../actions/userActions';
+import { getUserDetails, updateUserProfile } from '../actions/userActions';
+
+/*
+Will Fix these bugs
+-> Reset Form after password update
+-> Reset "success" state , to hide "Profile Updated Message"
+-> If Password Updated, then call Logout
+*/
 
 const ProfileScreen = ({ history, location }) => {
   const [name, setName] = useState('');
@@ -21,6 +27,9 @@ const ProfileScreen = ({ history, location }) => {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
+  const { success } = userUpdateProfile;
 
   useEffect(() => {
     if (!userInfo) {
@@ -41,7 +50,7 @@ const ProfileScreen = ({ history, location }) => {
     if (password !== confirmPassword) {
       setMessage('Password does not matched');
     } else {
-      //DISPATCH
+      dispatch(updateUserProfile({ name, email, password }));
     }
   };
 
@@ -51,6 +60,7 @@ const ProfileScreen = ({ history, location }) => {
         <h3>Your Profile</h3>
         {error && <Message variant="danger">{error}</Message>}
         {message && <Message variant="danger">{message}</Message>}
+        {success && <Message variant="success">Profile Updated!</Message>}
         {loading && <Loader />}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId="name">

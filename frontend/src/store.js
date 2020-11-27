@@ -14,6 +14,7 @@ import {
   userDetailsReducer,
   userLoginReducer,
   userRegisterReducer,
+  userUpdateProfileReducer,
 } from './reducers/userReducer';
 
 const cartItemsFromStorage = localStorage.getItem('cartItems')
@@ -39,6 +40,7 @@ export const store = createStore(
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
+    userUpdateProfile: userUpdateProfileReducer,
   }),
   initialState,
   composeWithDevTools(applyMiddleware(...middlewares))
