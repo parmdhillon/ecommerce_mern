@@ -4,6 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import thunk from 'redux-thunk';
 import { cartReducer } from './reducers/cartReducer';
+import { orderCreateReducer } from './reducers/orderReducers';
 
 import {
   productDetailReducer,
@@ -48,6 +49,7 @@ export const store = createStore(
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
     userUpdateProfile: userUpdateProfileReducer,
+    orderCreate: orderCreateReducer,
   }),
   initialState,
   composeWithDevTools(applyMiddleware(...middlewares))

@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Button, Row, Col, ListGroup, Card, Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CheckoutSteps from '../components/CheckoutSteps';
 import Message from '../components/Message';
+import { createOrder } from '../actions/orderActions';
 
-const PlaceorderScreen = () => {
+const PlaceorderScreen = ({ history }) => {
   const dispatch = useDispatch();
 
   const cart = useSelector((state) => state.cart);
@@ -27,8 +28,6 @@ const PlaceorderScreen = () => {
 
   cart.shippingPrice = round(10);
 
-  console.log(typeof cart.shippingPrice);
-
   cart.taxPrice = round(Number(0.15 * cart.itemsPrice), 2);
 
   cart.totalPrice = (
@@ -37,7 +36,29 @@ const PlaceorderScreen = () => {
     Number(cart.taxPrice)
   ).toFixed(2);
 
-  const placeOrderHandler = (e) => {};
+  const OrderCreate = useSelector((state) => state.orderCreate);
+  const { order, success, error } = OrderCreate;
+
+  useEffect(() => {
+    if (success) {
+      //history.push(`/order/${order._id}`);
+    }
+  }, [history, success, order]);
+
+  const placeOrderHandler = (e) => {
+    e.preventDefault();
+    dispatch(
+      createOrder({
+        orderItems: cart.cartItems,
+        shippingAddress: cart.shippingAddress,
+        paymentMethod: cart.paymentMethod,
+        itemsPrice: cart.itemsPrice,
+        shippingPrice: cart.shippingPrice,
+        taxPrice: cart.taxPrice,
+        totalPrice: cart.totalPrice,
+      })
+    );
+  };
 
   return (
     <>
@@ -81,7 +102,7 @@ const PlaceorderScreen = () => {
                           />
                         </Col>
                         <Col>
-                          <Link to={`/products/${item.product}`}>
+                          <Link to={`/product/${item.product}`}>
                             {item.name}
                           </Link>
                         </Col>
@@ -126,6 +147,11 @@ const PlaceorderScreen = () => {
                   <Col>${cart.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
+              {error && (
+                <ListGroup.Item>
+                  <Message variant="danger">{error}</Message>
+                </ListGroup.Item>
+              )}
               <ListGroup.Item>
                 <Button
                   type="button"
