@@ -13,10 +13,8 @@ const PlaceorderScreen = () => {
   //Calculate Prices
 
   const round = (value, decimals = 2) => {
-    return Number(
-      Number(Math.round(value + 'e' + decimals) + 'e-' + decimals).toFixed(
-        decimals
-      )
+    return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals).toFixed(
+      decimals
     );
   };
 
@@ -33,7 +31,11 @@ const PlaceorderScreen = () => {
 
   cart.taxPrice = round(Number(0.15 * cart.itemsPrice), 2);
 
-  cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
+  cart.totalPrice = (
+    Number(cart.itemsPrice) +
+    Number(cart.shippingPrice) +
+    Number(cart.taxPrice)
+  ).toFixed(2);
 
   const placeOrderHandler = (e) => {};
 
