@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Row, Col, ListGroup, Card, Image } from 'react-bootstrap';
+import { Row, Col, ListGroup, Card, Image } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Message from '../components/Message';
@@ -29,8 +29,10 @@ const OrderScreen = ({ match }) => {
   }
 
   useEffect(() => {
-    dispatch(getOrderDetails(orderID));
-  }, [dispatch, orderID]);
+    if (!order || order._id !== orderID) {
+      dispatch(getOrderDetails(orderID));
+    }
+  }, [dispatch, orderID, order]);
 
   return loading ? (
     <Loader />
